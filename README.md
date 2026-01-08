@@ -1,9 +1,9 @@
-# ArtConnect 🎨
+# ArtConnect 
 **Interactive Digital Art Gallery Platform**
 
 ---
 
-## 📌 Project Overview
+##  Project Overview
 
 **ArtConnect** is a client-side web application designed to showcase artworks and artist portfolios in an engaging digital environment. The platform allows users to create artist profiles, upload artworks using image URLs, browse a categorized gallery, and interact through likes and comments.
 
@@ -11,7 +11,7 @@ This project is developed as part of the **FEWDL (Front-End Web Development Lab)
 
 ---
 
-## 🎯 Objectives
+##  Objectives
 
 - Provide a simple platform for managing artists and artworks
 - Display artworks in a visually appealing gallery
@@ -21,9 +21,9 @@ This project is developed as part of the **FEWDL (Front-End Web Development Lab)
 
 ---
 
-## 🚀 Features / Functional Requirements
+##  Features / Functional Requirements
 
-### ✅ Core Features
+###  Core Features
 - Artist profile creation
 - Artwork upload using **direct image URLs**
 - Categorized gallery display
@@ -32,7 +32,7 @@ This project is developed as part of the **FEWDL (Front-End Web Development Lab)
 - Artwork details view using a **lightbox**
 - Responsive layout for desktop and mobile devices
 
-### 🌟 Optional Enhancements Implemented
+###  Optional Enhancements Implemented
 - Like system for artworks
 - Comment system for user interaction
 - Lightbox preview with artwork details
@@ -41,7 +41,7 @@ This project is developed as part of the **FEWDL (Front-End Web Development Lab)
 
 ---
 
-## 🛠️ Technologies Used
+##  Technologies Used
 
 - **HTML5** – Structure and layout
 - **CSS3** – Styling, layout, responsiveness
@@ -51,7 +51,7 @@ This project is developed as part of the **FEWDL (Front-End Web Development Lab)
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 ArtConnect/
@@ -62,7 +62,7 @@ ArtConnect/
 
 ---
 
-## ▶️ How to Run the Project
+##  How to Run the Project
 
 1. Download or clone the project folder
 2. Open `index.html` in any modern web browser (Chrome recommended)
@@ -70,7 +70,7 @@ ArtConnect/
 
 ---
 
-## 🧪 Sample Data
+##  Sample Data
 
 The project includes predefined:
 - Artist names
@@ -81,7 +81,7 @@ This allows immediate demonstration without manual input.
 
 ---
 
-## ⚠️ Limitations
+##  Limitations
 
 - No backend or database (data resets on page refresh)
 - Image upload via URL only (no file upload)
@@ -89,7 +89,7 @@ This allows immediate demonstration without manual input.
 
 ---
 
-## 🔮 Future Enhancements
+##  Future Enhancements
 
 - Backend integration (Node.js / Firebase)
 - Persistent data storage
@@ -99,13 +99,13 @@ This allows immediate demonstration without manual input.
 
 ---
 
-## 👩‍💻 Author
+##  Author
 
 **Rishika**
 FEWDL Project — Front-End Web Development Lab
 
 ---
 
-## 📄 License
+##  License
 
 This project is for **educational purposes only**.
