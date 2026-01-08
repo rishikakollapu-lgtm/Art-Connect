@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ArtConnect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root {
+  --bg: #f4f6fb;
+  --card: #ffffff;
+  --accent: #345c9c;
+  --radius: 10px;
+  --shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: #222;
+}
+
+header {
+  background: var(--accent);
+  padding: 18px;
+  color: #fff;
+}
+
+header h1 {
+  margin-bottom: 10px;
+}
+
+nav button {
+  background: #fff;
+  color: var(--accent);
+  border: none;
+  padding: 8px 14px;
+  margin-right: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+nav button:hover {
+  background: #e0e6f4;
+}
+
+main {
+  padding: 25px;
+}
+
+.view {
+  display: none;
+}
+
+.view.active {
+  display: block;
+}
+
+.card {
+  background: var(--card);
+  padding: 25px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  max-width: 600px;
+  margin: auto;
+}
+
+h2 {
+  margin-bottom: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+input, select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.primary-btn {
+  background: var(--accent);
+  color: #fff;
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.primary-btn:hover {
+  background: #284a82;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+#gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
+  gap: 16px;
+}
+
+.art-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+}
+
+.art-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.art-card .info {
+  padding: 10px;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.lightbox-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: var(--radius);
+  max-width: 500px;
+  width: 100%;
+}
+
+.lightbox-content img {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.comment {
+  font-size: 14px;
+  padding: 4px 0;
+}
+
+footer {
+  text-align: center;
+  padding: 15px;
+  color: #666;
+  font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>ArtConnect</h1>
+  <nav>
+    <button onclick="showView('home')">Home</button>
+    <button onclick="showView('artist')">Add Artist</button>
+    <button onclick="showView('artwork')">Upload Artwork</button>
+    <button onclick="showView('gallery')">Gallery</button>
+  </nav>
+</header>
+
+<main>
+
+<!-- HOME -->
+<section id="home" class="view active">
+  <div class="card">
+    <h2>Welcome to ArtConnect</h2>
+    <p>ArtConnect is an interactive digital platform designed to showcase artworks and
+artist portfolios in an engaging online environment.</p>
+    <p> It allows artists to upload, organize,
+and display their work while enabling visitors to browse, appreciate, and learn about different art forms.</p>
+    <p>The platform fosters creativity and collaboration by connecting artists
+and audiences through a unified digital space.</p>
+  </div>
+</section>
+
+<!-- ADD ARTIST -->
+<section id="artist" class="view">
+  <div class="card">
+    <h2>Create Artist</h2>
+    <div class="form-group">
+      <label>Artist Name</label>
+      <input id="artistName">
+    </div>
+    <button class="primary-btn" onclick="addArtist()">Save Artist</button>
+  </div>
+</section>
+
+<!-- ADD ARTWORK -->
+<section id="artwork" class="view">
+  <div class="card">
+    <h2>Upload Artwork</h2>
+
+    <div class="form-group">
+      <label>Artist</label>
+      <select id="artArtist"></select>
+    </div>
+
+    <div class="form-group">
+      <label>Title</label>
+      <input id="artTitle">
+    </div>
+
+    <div class="form-group">
+      <label>Category</label>
+      <input id="artCategory">
+    </div>
+
+    <div class="form-group">
+      <label>Tags</label>
+      <input id="artTags">
+    </div>
+
+    <div class="form-group">
+      <label>Date</label>
+      <input type="date" id="artDate">
+    </div>
+
+    <div class="form-group">
+      <label>Image URL</label>
+      <input id="artImage">
+    </div>
+
+    <button class="primary-btn" onclick="addArtwork()">Add Artwork</button>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" class="view">
+  <h2>Gallery</h2>
+
+  <div class="controls">
+    <input id="searchBox" placeholder="Search..." oninput="renderGallery()">
+    <select id="categoryFilter" onchange="renderGallery()">
+      <option value="">All Categories</option>
+    </select>
+  </div>
+
+  <div id="gallery-grid">
+
+</div>
+</section>
+
+</main>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+  <div class="lightbox-content" onclick="event.stopPropagation()">
+    <img id="lbImg">
+    <h3 id="lbTitle"></h3>
+    <p id="lbMeta"></p>
+    <button onclick="likeArtwork()">Like (<span id="lbLikes"></span>)</button>
+
+    <h4>Comments</h4>
+    <div id="lbComments"></div>
+    <input id="commentInput" placeholder="Add comment">
+    <button onclick="addComment()">Post</button>
+  </div>
+</div>
+<script>
+let artists = ["Alex", "Riya","Markus Spiske","Hrant","Adrianna","Europeana","brooklyn","Federico"];
+let artworks = [
+  {
+    title: "Modern Interior",
+    category: "Interior",
+    tags: ["modern"],
+    date: "2023-10-10",
+    image: "https://plus.unsplash.com/premium_photo-1661768390422-b0ea5e89c41e?q=80&w=1460&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    likes: 0,
+    comments: []
+  }
+ ];
+
+let currentArtwork = null;
+
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function addArtist() {
+  const name = artistName.value.trim();
+  if (!name) return;
+  artists.push(name);
+  updateArtistSelect();
+  artistName.value = "";
+}
+
+function updateArtistSelect() {
+  artArtist.innerHTML = artists.map(a => `<option>${a}</option>`).join("");
+}
+
+function addArtwork() {
+  artworks.push({
+    title: artTitle.value,
+    category: artCategory.value,
+    tags: artTags.value.split(","),
+    date: artDate.value,
+    image: artImage.value,
+    likes: 0,
+    comments: []
+  });
+  renderGallery();
+  showView('gallery');
+}
+
+function renderGallery() {
+  const grid = document.getElementById("gallery-grid");
+  const search = searchBox.value.toLowerCase();
+  const cat = categoryFilter.value;
+
+  const filtered = artworks.filter(a =>
+    (!cat || a.category === cat) &&
+    a.title.toLowerCase().includes(search)
+  );
+
+  grid.innerHTML = filtered.map((a,i) => `
+    <div class="art-card" onclick="openLightbox(${i})">
+      <img src="${a.image}">
+      <div class="info">
+        <strong>${a.title}</strong><br>
+        ${a.category}
+      </div>
+    </div>
+  `).join("");
+
+  categoryFilter.innerHTML =
+    `<option value="">All Categories</option>` +
+    [...new Set(artworks.map(a => a.category))].map(c => `<option>${c}</option>`).join("");
+}
+
+function openLightbox(i) {
+  currentArtwork = artworks[i];
+  lbImg.src = currentArtwork.image;
+  lbTitle.innerText = currentArtwork.title;
+  lbMeta.innerText = currentArtwork.category;
+  lbLikes.innerText = currentArtwork.likes;
+  renderComments();
+  lightbox.style.display = "flex";
+}
+
+function closeLightbox() {
+  lightbox.style.display = "none";
+}
+
+function likeArtwork() {
+  currentArtwork.likes++;
+  lbLikes.innerText = currentArtwork.likes;
+}
+
+function addComment() {
+  if (!commentInput.value) return;
+  currentArtwork.comments.push(commentInput.value);
+  commentInput.value = "";
+  renderComments();
+}
+
+function renderComments() {
+  lbComments.innerHTML = currentArtwork.comments
+    .map(c => `<div class="comment">• ${c}</div>`).join("");
+}
+
+updateArtistSelect();
+renderGallery();
+</script>
+
+</body>
+</html>
